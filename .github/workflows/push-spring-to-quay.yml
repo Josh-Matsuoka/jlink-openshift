@@ -45,6 +45,8 @@ jobs:
         builder_image: 'quay.io/jdowland/jlink:latest'
         image: ${{ env.IMAGE_NAME }}
         tags: ${{ env.TAGS }}
+        username: ${{ secrets.QUAY_USERNAME }}
+        password: ${{ secrets.QUAY_PASSWORD }}
     # TODO: This works but need to upload secrets.
     - name: Push To Quay Action
       uses: redhat-actions/push-to-registry@v2
