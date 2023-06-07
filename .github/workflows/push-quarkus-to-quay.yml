@@ -8,8 +8,19 @@ env:
   S2I_URI: https://github.com/openshift/source-to-image/releases/download/v1.3.1/source-to-image-v1.3.1-a5a77147-linux-amd64.tar.gz
   IMAGE_NAME: jlink-quarkus-test-image
   TAGS: v1 ${{ github.sha }}
+  IMAGE_REGISTRY: quay.io
   
 jobs:
+  login:
+    name: Log in to image registry
+    runs-on: ubuntu-latest
+    steps:
+      - name: Log in to Quay.io
+        uses: redhat-actions/podman-login@v1
+        with:
+          username: ${{ secrets.QUAY_USERNAME }}
+          password: ${{ secrets.QUAY_PASSWORD }}
+          registry: ${{ env.IMAGE_REGISTRY }}
   build-image:
     runs-on: ubuntu-latest
     steps:
