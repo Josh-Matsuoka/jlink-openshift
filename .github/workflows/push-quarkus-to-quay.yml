@@ -11,19 +11,14 @@ env:
   IMAGE_REGISTRY: quay.io
   
 jobs:
-  login:
-    name: Log in to image registry
-    runs-on: ubuntu-latest
-    steps:
-      - name: Log in to Quay.io
-        uses: redhat-actions/podman-login@v1
-        with:
-          username: ${{ secrets.QUAY_USERNAME }}
-          password: ${{ secrets.QUAY_PASSWORD }}
-          registry: ${{ env.IMAGE_REGISTRY }}
   build-image:
     runs-on: ubuntu-latest
     steps:
+    - uses: actions/podman-login@v1
+      with:
+        username: ${{ secrets.QUAY_USERNAME }}
+        password: ${{ secrets.QUAY_PASSWORD }}
+        registry: ${{ env.IMAGE_REGISTRY }}
     - uses: actions/checkout@v2
       with:
         repository: ${{ inputs.checkout-repo }}
